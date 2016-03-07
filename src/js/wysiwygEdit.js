@@ -67,7 +67,8 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				font:{ type: 'select', title: 'Font', class: 'tinyeditor-font', model: 'font', options: 'a as a for a in fonts', change: 'fontChange()' },
 				size:{ type: 'select', title: 'Size', class: 'tinyeditor-size', model: 'fontsize', options: 'a.key as a.name for a in fontsizes', change: 'sizeChange()' },
 				format:{ type: 'select', title: 'Style', class: 'tinyeditor-size', model: 'textstyle', options: 's.key as s.name for s in styles', change: 'styleChange()' },
-				inputMath:{ type: 'div', title: 'Insert Image', class: 'tinyeditor-control', faIcon: 'subscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' }
+				inputMath:{ type: 'div', title: 'Insert Math', class: 'tinyeditor-control', faIcon: 'subscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' },
+				imageUpload:{ type: 'div', title: 'Upload Image', class: 'tinyeditor-control', faIcon: 'cloud-upload', backgroundPos: '34px -600px', specialCommand: 'uploadImage()' }
 			};
 
 			var usingFontAwesome = scope.config && scope.config.fontAwesome;
