@@ -292,6 +292,17 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 					insertElement(data);
 				});
 			};
+			scope.uploadImage = function() {
+				var val;
+				if(scope.api && scope.api.uploadImage && angular.isFunction(scope.api.uploadImage)) {
+					val = scope.api.uploadImage.apply( scope.api.scope || null );
+				}
+				//resolve the promise if any
+				$q.when(val).then(function(data) {
+					insertElement(data);
+				});
+			};
+			
 			scope.insertMath = function() {
 				var val;
 				if(scope.api && scope.api.insertMath && angular.isFunction(scope.api.insertMath)) {
