@@ -7,9 +7,6 @@ var editorTemplate = "<div class=\"tinyeditor\">" +
 	"<textarea data-placeholder-attr=\"\" style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; resize: none; width: 100%; height: 100%;\" ng-show=\"editMode\" ng-model=\"content\"></textarea>" +
 	"<iframe style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 100%; height: 100%;\" ng-hide=\"editMode\" ngp-content-frame=\"{sanitize: config.sanitize}\" content-style=\"{contentStyle}\" ng-model=\"content\"></iframe>" +
 	"</div>" +
-	"<div class=\"tinyeditor-footer\">" +
-	"<div ng-switch=\"editMode\" ng-click=\"editMode = !editMode\" class=\"toggle\"><span ng-switch-when=\"true\">wysiwyg</span><span ng-switch-default>source</span></div>" +
-	"</div>" +
 	"</div>";
 
 angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', '$rootScope', '$compile', '$timeout', '$q',
@@ -67,7 +64,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				font:{ type: 'select', title: 'Font', class: 'tinyeditor-font', model: 'font', options: 'a as a for a in fonts', change: 'fontChange()' },
 				size:{ type: 'select', title: 'Size', class: 'tinyeditor-size', model: 'fontsize', options: 'a.key as a.name for a in fontsizes', change: 'sizeChange()' },
 				format:{ type: 'select', title: 'Style', class: 'tinyeditor-size', model: 'textstyle', options: 's.key as s.name for s in styles', change: 'styleChange()' },
-				inputMath:{ type: 'div', title: 'Insert Math', class: 'tinyeditor-control', faIcon: 'subscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' },
+				inputMath:{ type: 'div', title: 'Insert Math', class: 'tinyeditor-control', faIcon: 'superscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' },
 				imageUpload:{ type: 'div', title: 'Upload Image', class: 'tinyeditor-control', faIcon: 'cloud-upload', backgroundPos: '34px -600px', specialCommand: 'uploadImage()' }
 			};
 

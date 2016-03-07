@@ -140,7 +140,7 @@ angular.module('ngWYSIWYG').service('ngpImageResizer', ['NGP_EVENTS', function(N
 		if (!resizerContainer.parentNode) {
 			return;
 		}
-		if (event && event.target.tagName === 'IMG') {
+		if (event && event.target && event.target.tagName === 'IMG') {
 			return;
 		}
 		resizerContainer.style.display = 'none';
