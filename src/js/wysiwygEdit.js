@@ -66,7 +66,8 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				print:{ type: 'div', title: 'Print', class: 'tinyeditor-control', faIcon: 'print', backgroundPos: '34px -750px', command: 'print' },
 				font:{ type: 'select', title: 'Font', class: 'tinyeditor-font', model: 'font', options: 'a as a for a in fonts', change: 'fontChange()' },
 				size:{ type: 'select', title: 'Size', class: 'tinyeditor-size', model: 'fontsize', options: 'a.key as a.name for a in fontsizes', change: 'sizeChange()' },
-				format:{ type: 'select', title: 'Style', class: 'tinyeditor-size', model: 'textstyle', options: 's.key as s.name for s in styles', change: 'styleChange()' }
+				format:{ type: 'select', title: 'Style', class: 'tinyeditor-size', model: 'textstyle', options: 's.key as s.name for s in styles', change: 'styleChange()' },
+				inputMath:{ type: 'div', title: 'Insert Image', class: 'tinyeditor-control', faIcon: 'subscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' }
 			};
 
 			var usingFontAwesome = scope.config && scope.config.fontAwesome;
@@ -284,6 +285,16 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				else {
 					val = prompt('Please enter the picture URL', 'http://');
 					val = '<img src="' + val + '">'; //we convert into HTML element.
+				}
+				//resolve the promise if any
+				$q.when(val).then(function(data) {
+					insertElement(data);
+				});
+			};
+			scope.insertMath = function() {
+				var val;
+				if(scope.api && scope.api.insertMath && angular.isFunction(scope.api.insertMath)) {
+					val = scope.api.insertMath.apply( scope.api.scope || null );
 				}
 				//resolve the promise if any
 				$q.when(val).then(function(data) {

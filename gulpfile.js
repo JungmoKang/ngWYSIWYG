@@ -27,7 +27,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('webserver', function() {
-	webserverInstance = gulp.src('./dev').pipe(webserver({ host: '0.0.0.0', port: 8000 }));
+	webserverInstance = gulp.src('./dev').pipe(webserver({ host: '0.0.0.0', port: 7000 }));
 });
 
 gulp.task('develop', ['set-development-mode', 'minify', 'uglify', 'copy-images', 'watch', 'webserver']);
