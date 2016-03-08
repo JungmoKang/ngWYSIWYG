@@ -7,6 +7,9 @@ var editorTemplate = "<div class=\"tinyeditor\">" +
 	"<textarea data-placeholder-attr=\"\" style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; resize: none; width: 100%; height: 100%;\" ng-show=\"editMode\" ng-model=\"content\"></textarea>" +
 	"<iframe style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 100%; height: 100%;\" ng-hide=\"editMode\" ngp-content-frame=\"{sanitize: config.sanitize}\" content-style=\"{contentStyle}\" ng-model=\"content\"></iframe>" +
 	"</div>" +
+	"<div class=\"tinyeditor-footer\">" +
+	"<div ng-switch=\"editMode\" ng-click=\"editMode = !editMode\" class=\"toggle\"><span ng-switch-when=\"true\">wysiwyg</span><span ng-switch-default>source</span></div>" +
+	"</div>" +
 	"</div>";
 
 angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', '$rootScope', '$compile', '$timeout', '$q',
@@ -65,6 +68,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				size:{ type: 'select', title: 'Size', class: 'tinyeditor-size', model: 'fontsize', options: 'a.key as a.name for a in fontsizes', change: 'sizeChange()' },
 				format:{ type: 'select', title: 'Style', class: 'tinyeditor-size', model: 'textstyle', options: 's.key as s.name for s in styles', change: 'styleChange()' },
 				inputMath:{ type: 'div', title: 'Insert Math', class: 'tinyeditor-control', faIcon: 'superscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' },
+				yt:{ type: 'div', title: 'Insert yt video', class: 'tinyeditor-control', faIcon: 'youtube', backgroundPos: '34px -750px', specialCommand: 'insertYT()' },
 				imageUpload:{ type: 'div', title: 'Upload Image', class: 'tinyeditor-control', faIcon: 'cloud-upload', backgroundPos: '34px -600px', specialCommand: 'uploadImage()' }
 			};
 
@@ -310,6 +314,20 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 					insertElement(data);
 				});
 			};
+			scope.insertYT = function(){
+   		 var val;
+   		 if(scope.api && scope.api.insertYT && angular.isFunction(scope.api.insertYT)) {
+       		 val = scope.api.insertYT.apply( scope.api.scope || null );
+   		 }
+   		 else {
+       	 val = prompt('Please enter the youtube video URL', 'http://');
+       	 val = getId(val);
+       		 val = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + val + '" frameborder="0" allowfullscreen></iframe>'
+   		 }
+   		 $q.when(val).then(function(data) {
+          insertElement(data);
+      	});
+   		};
 			$element.ready(function() {
 				function makeUnselectable(node) {
 					if (node.nodeType == 1) {
