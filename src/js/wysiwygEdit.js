@@ -314,6 +314,15 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 					insertElement(data);
 				});
 			};
+			function getId(url) {
+				var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+				var match = url.match(regExp);
+				if (match && match[2].length == 11) {
+				 	return match[2];
+				} else {
+				  return 'error';
+				}
+			}
 			scope.insertYT = function(){
    		 var val;
    		 if(scope.api && scope.api.insertYT && angular.isFunction(scope.api.insertYT)) {
