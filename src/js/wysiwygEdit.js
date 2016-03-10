@@ -60,7 +60,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				backgroundColor:{ type: 'div', title: 'Background Color', class: 'tinyeditor-control', faIcon: 'paint-brush', backgroundPos:'34px -808px', specialCommand: 'showBgColors = !showBgColors', inner: '<ngp-colors-grid show=\"showBgColors\" on-pick=\"setBgColor(color)\"><ngp-colors-grid>' },
 				image:{ type: 'div', title: 'Insert Image', class: 'tinyeditor-control', faIcon: 'picture-o', backgroundPos: '34px -600px', specialCommand: 'insertImage()' },
 				hr:{ type: 'div', title: 'Insert Horizontal Rule', class: 'tinyeditor-control', faIcon: '-', backgroundPos: '34px -630px', command: 'inserthorizontalrule' },
-				symbols:{ type: 'div', title: 'Insert Special Symbol', class: 'tinyeditor-control', faIcon: 'cny', backgroundPos: '34px -838px', specialCommand: 'showSpecChars = !showSpecChars', inner: '<ngp-symbols-grid show=\"showSpecChars\" on-pick=\"insertSpecChar(symbol)\"><ngp-symbols-grid>' },
+				symbols:{ type: 'div', title: 'Insert Special Symbol', class: 'tinyeditor-control', faIcon: 'eur', backgroundPos: '34px -838px', specialCommand: 'showSpecChars = !showSpecChars', inner: '<ngp-symbols-grid show=\"showSpecChars\" on-pick=\"insertSpecChar(symbol)\"><ngp-symbols-grid>' },
 				link:{ type: 'div', title: 'Insert Hyperlink', class: 'tinyeditor-control', faIcon: 'link', backgroundPos: '34px -660px', specialCommand: 'insertLink()' },
 				unlink:{ type: 'div', title: 'Remove Hyperlink', class: 'tinyeditor-control', faIcon: 'chain-broken', backgroundPos: '34px -690px', command: 'unlink' },
 				print:{ type: 'div', title: 'Print', class: 'tinyeditor-control', faIcon: 'print', backgroundPos: '34px -750px', command: 'print' },
@@ -331,7 +331,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
    		 else {
        	 val = prompt('Please enter the youtube video URL', 'http://');
        	 val = getId(val);
-       		 val = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + val + '" frameborder="0" allowfullscreen></iframe>'
+       		 val = '<p><iframe width="100%" height="400px" src="//www.youtube.com/embed/' + val + '" frameborder="0" allowfullscreen></iframe></p>'
    		 }
    		 $q.when(val).then(function(data) {
           insertElement(data);

@@ -12,15 +12,8 @@ angular.module('ngWYSIWYG').directive('ngpSymbolsGrid', ['NGP_EVENTS', function(
 		});
 
 		scope.symbols = [
-			'&iexcl;', '&iquest;', '&ndash;', '&mdash;', '&raquo;', '&laquo;', '&copy;',
-			'&divide;', '&micro;', '&para;', '&plusmn;', '&cent;', '&euro;', '&pound;', '&reg;',
-			'&sect;', '&trade;', '&yen;', '&deg;', '&forall;', '&part;', '&exist;', '&empty;',
-			'&nabla;', '&isin;', '&notin;', '&ni;', '&prod;', '&sum;', '&uarr;', '&rarr;', '&darr;',
-			'&spades;', '&clubs;', '&hearts;', '&diams;', '&aacute;', '&agrave;', '&acirc;', '&aring;',
-			'&atilde;', '&auml;', '&aelig;', '&ccedil;', '&eacute;', '&egrave;', '&ecirc;', '&euml;',
-			'&iacute;', '&igrave;', '&icirc;', '&iuml;', '&ntilde;', '&oacute;', '&ograve;',
-			'&ocirc;', '&oslash;', '&otilde;', '&ouml;', '&szlig;', '&uacute;', '&ugrave;',
-			'&ucirc;', '&uuml;', '&yuml;'
+			'&#9312;', '&#9313;', '&#9314;', '&#9315;', '&#9316;', '&#9317;', '&#9318;',
+			'&#9319;', '&#9320;', '&#9321;', '&#9322;', '&#9323;', '&#9324;', '&#9325;', '&#9326;'
 		];
 
 		scope.pick = function( symbol ) {
