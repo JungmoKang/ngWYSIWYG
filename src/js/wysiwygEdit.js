@@ -281,6 +281,11 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 			 */
 			scope.insertImage = function() {
 				var val;
+				loadVars();
+				if (iframeWindow.getSelection().focusNode == null)
+				{
+					iframeDocument.body.focus();
+				}
 				if(scope.api && scope.api.insertImage && angular.isFunction(scope.api.insertImage)) {
 					val = scope.api.insertImage.apply( scope.api.scope || null );
 				}
@@ -295,6 +300,11 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 			};
 			scope.uploadImage = function() {
 				var val;
+				loadVars();
+				if (iframeWindow.getSelection().focusNode == null)
+				{
+						iframeDocument.body.focus();
+				}
 				if(scope.api && scope.api.uploadImage && angular.isFunction(scope.api.uploadImage)) {
 					val = scope.api.uploadImage.apply( scope.api.scope || null );
 				}
