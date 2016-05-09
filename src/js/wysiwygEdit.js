@@ -5,7 +5,8 @@ var editorTemplate = "<div class=\"tinyeditor\">" +
 	"</div>" +
 	"<div class=\"sizer\" ngp-resizable>" +
 	"<textarea data-placeholder-attr=\"\" style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; resize: none; width: 100%; height: 100%;\" ng-show=\"editMode\" ng-model=\"content\"></textarea>" +
-	"<iframe style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 100%; height: 100%;\" ng-hide=\"editMode\" ngp-content-frame=\"{sanitize: config.sanitize}\" content-style=\"{contentStyle}\" ng-model=\"content\"></iframe>" +
+	"<iframe " + "{iframeName}" +
+	"style=\"-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 100%; height: 100%;\" ng-hide=\"editMode\" ngp-content-frame=\"{sanitize: config.sanitize}\" content-style=\"{contentStyle}\" ng-model=\"content\"></iframe>" +
 	"</div>" +
 	"<div class=\"tinyeditor-footer\">" +
 	"<div ng-switch=\"editMode\" ng-click=\"editMode = !editMode\" class=\"toggle\"><span ng-switch-when=\"true\">wysiwyg</span><span ng-switch-default>source</span></div>" +
@@ -25,10 +26,13 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 			var iframe = null;
 			var iframeDocument = null;
 			var iframeWindow = null;
-
+			var iframeId = attrs.id;
 			function loadVars() {
 				if (iframe != null) return;
-				iframe = document.querySelector('wysiwyg-edit').querySelector('iframe');
+				if (iframeId != null)
+				  iframe = document.querySelector('#' + iframeId).querySelector('iframe');
+				else
+					iframe = document.querySelector('wysiwyg-edit').querySelector('iframe');
 				iframeDocument = iframe.contentDocument;
 				iframeWindow = iframeDocument.defaultView;
 			}
@@ -58,7 +62,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				redo:{ type: 'div', title: 'Redo', class: 'tinyeditor-control', faIcon: 'repeat', backgroundPos: '34px -570px', command: 'redo' },
 				fontColor:{ type: 'div', title: 'Font Color', class: 'tinyeditor-control', faIcon: 'font', backgroundPos: '34px -779px', specialCommand: 'showFontColors = !showFontColors', inner: '<ngp-colors-grid show=\"showFontColors\" on-pick=\"setFontColor(color)\"><ngp-colors-grid>' },
 				backgroundColor:{ type: 'div', title: 'Background Color', class: 'tinyeditor-control', faIcon: 'paint-brush', backgroundPos:'34px -808px', specialCommand: 'showBgColors = !showBgColors', inner: '<ngp-colors-grid show=\"showBgColors\" on-pick=\"setBgColor(color)\"><ngp-colors-grid>' },
-				image:{ type: 'div', title: 'Insert Image', class: 'tinyeditor-control', faIcon: 'picture-o', backgroundPos: '34px -600px', specialCommand: 'insertImage()' },
+				image:{ type: 'div', title: 'Insert Image', class: 'tinyeditor-control', faIcon: 'cloud', backgroundPos: '34px -600px', specialCommand: 'insertImage()' },
 				hr:{ type: 'div', title: 'Insert Horizontal Rule', class: 'tinyeditor-control', faIcon: '-', backgroundPos: '34px -630px', command: 'inserthorizontalrule' },
 				symbols:{ type: 'div', title: 'Insert Special Symbol', class: 'tinyeditor-control', faIcon: 'eur', backgroundPos: '34px -838px', specialCommand: 'showSpecChars = !showSpecChars', inner: '<ngp-symbols-grid show=\"showSpecChars\" on-pick=\"insertSpecChar(symbol)\"><ngp-symbols-grid>' },
 				link:{ type: 'div', title: 'Insert Hyperlink', class: 'tinyeditor-control', faIcon: 'link', backgroundPos: '34px -660px', specialCommand: 'insertLink()' },
@@ -69,7 +73,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				format:{ type: 'select', title: 'Style', class: 'tinyeditor-size', model: 'textstyle', options: 's.key as s.name for s in styles', change: 'styleChange()' },
 				inputMath:{ type: 'div', title: 'Insert Math', class: 'tinyeditor-control', faIcon: 'superscript', backgroundPos: '34px -600px', specialCommand: 'insertMath()' },
 				yt:{ type: 'div', title: 'Insert yt video', class: 'tinyeditor-control', faIcon: 'youtube', backgroundPos: '34px -750px', specialCommand: 'insertYT()' },
-				imageUpload:{ type: 'div', title: 'Upload Image', class: 'tinyeditor-control', faIcon: 'cloud-upload', backgroundPos: '34px -600px', specialCommand: 'uploadImage()' }
+				imageUpload:{ type: 'div', title: 'Upload Image', class: 'tinyeditor-control', faIcon: 'file-image-o', backgroundPos: '34px -600px', specialCommand: 'uploadImage()' }
 			};
 
 			var usingFontAwesome = scope.config && scope.config.fontAwesome;
@@ -151,6 +155,10 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 
 			var template = editorTemplate.replace('{toolbar}', toolbarGroups.join(''));
 			template = template.replace('{contentStyle}', attrs.contentStyle || '');
+			if(attrs.id)
+				template = template.replace('{iframeName}', "name=\"" + attrs.id + "\" " || '');
+		  else
+					template = template.replace('{iframeName}', " " || '');
 			//$element.replaceWith( angular.element($compile( editorTemplate.replace('{toolbar}', toolbarGroups.join('') ) )(scope)) );
 			$element.html( template );
 			$compile($element.contents())(scope);
@@ -291,7 +299,9 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 				}
 				else {
 					val = prompt('Please enter the picture URL', 'http://');
-					val = '<img src="' + val + '">'; //we convert into HTML element.
+					if(val==null)
+						return;
+					val = '<img src="' + val + ' " style="width: 100%;">'; //we convert into HTML element.
 				}
 				//resolve the promise if any
 				$q.when(val).then(function(data) {
@@ -301,6 +311,7 @@ angular.module('ngWYSIWYG').directive('wysiwygEdit', ['ngpUtils', 'NGP_EVENTS', 
 			scope.uploadImage = function() {
 				var val;
 				loadVars();
+				
 				if (iframeWindow.getSelection().focusNode == null)
 				{
 						iframeDocument.body.focus();
